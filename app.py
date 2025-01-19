@@ -7,7 +7,7 @@ def get_db_connection():
     connection = pymysql.connect(host='mydb.cufvixp5y6t3.us-east-1.rds.amazonaws.com',  # RDS endpoint
                                  user='dbuser',
                                  password='dbpassword',  # Should be stored in a Secret Manager
-                                 db='devprojdb',
+                                 db='flaskdb',
                                  charset='utf8mb4',
                                  cursorclass=pymysql.cursors.DictCursor)
     return connection
