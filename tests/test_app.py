@@ -1,7 +1,8 @@
 # tests/test_app.py
 import pytest
 from unittest.mock import patch, MagicMock
-from app import app
+from app_package import app
+
 
 @pytest.fixture
 def client():
@@ -9,13 +10,13 @@ def client():
     with app.test_client() as client:
         yield client
 
-@patch('app.get_db_connection')
+@patch('sdf.get_db_connection')
 def test_health_endpoint(mock_db_conn, client):
     response = client.get('/health')
     assert response.status_code == 200
     assert response.data.decode('utf-8') == "Up & Running"
 
-@patch('app.get_db_connection')
+@patch('sdf.get_db_connection')
 def test_create_table_endpoint(mock_db_conn, client):
     mock_connection = MagicMock()
     mock_db_conn.return_value = mock_connection
@@ -23,7 +24,7 @@ def test_create_table_endpoint(mock_db_conn, client):
     assert response.status_code == 200
     assert "Table created successfully" in response.data.decode('utf-8')
 
-@patch('app.get_db_connection')
+@patch('sdf.get_db_connection')
 def test_insert_record_endpoint(mock_db_conn, client):
     mock_connection = MagicMock()
     mock_db_conn.return_value = mock_connection
@@ -36,7 +37,7 @@ def test_insert_record_endpoint(mock_db_conn, client):
         "INSERT INTO example_table (name) VALUES (%s)", ('John Doe',)
     )
 
-@patch('app.get_db_connection')
+@patch('sdf.get_db_connection')
 def test_data_endpoint(mock_db_conn, client):
     mock_connection = MagicMock()
     mock_db_conn.return_value = mock_connection
