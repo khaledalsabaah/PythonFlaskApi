@@ -8,6 +8,7 @@ def client():
     with app.test_client() as client:
         yield client
 
+
 @patch('app_package.app.get_db_connection')
 def test_health_endpoint(mock_db_conn, client):
     """Test the /health endpoint."""
