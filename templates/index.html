@@ -8,6 +8,9 @@
 <body>
 <h1>Flask REST API UI</h1>
 
+<h2>Create Table</h2>
+<button type="button" onclick="createTable()">Create Table</button>
+
 <h2>Insert Record</h2>
 <form id="insertForm">
     <label for="name">Name:</label>
@@ -19,6 +22,19 @@
 <ul id="dataList"></ul>
 
 <script>
+    function createTable() {
+        fetch('/create_table')
+            .then(response => response.text())
+            .then(data => {
+                alert(data);
+                loadData();
+            })
+            .catch(error => {
+                console.error('Error creating table:', error);
+                alert('Failed to create table. Check the console for details.');
+            });
+    }
+
     function insertRecord() {
         const name = document.getElementById('name').value;
         fetch('/insert_record', {
@@ -32,6 +48,10 @@
         .then(data => {
             alert(data);
             loadData();
+        })
+        .catch(error => {
+            console.error('Error inserting record:', error);
+            alert('Failed to insert record. Check the console for details.');
         });
     }
 
@@ -46,6 +66,10 @@
                 listItem.textContent = `ID: ${record.id}, Name: ${record.name}`;
                 dataList.appendChild(listItem);
             });
+        })
+        .catch(error => {
+            console.error('Error loading data:', error);
+            alert('Failed to load data. Check the console for details.');
         });
     }
 
